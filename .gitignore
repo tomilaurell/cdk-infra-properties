@@ -1,0 +1,39 @@
+# Mac
+.DS_Store
+
+# Intellij
+.idea/
+*.iml
+*.iws
+
+# VS code
+.history
+.vscode
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+node_modules/
+
+# Typescript build
+dist/
+build/
+tsconfig.tsbuildinfo
+
+# NPM
+.npmrc
