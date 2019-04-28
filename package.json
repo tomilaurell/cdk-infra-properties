@@ -4,6 +4,8 @@
   "description": "Hierarchical env variable loader",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "repository": "https://github.com/tomilaurell/infra-properties.git",
+  "author": "Tomi Laurell <tomi.laurell@gmail.com>",
   "scripts": {
     "build": "tsc",
     "test": "jest"
