@@ -12,6 +12,7 @@ test("Branch specific properties-file should override", async () => {
       expect(stackName).toEqual("Test Stack");
       expect(props.TEST_PARAM_PARENT).toEqual("MASTER");
       expect(props.TEST_PARAM_CHILD).toEqual("TEST");
+      expect(props.paramEnvId).toEqual("test");
     }
   }
 

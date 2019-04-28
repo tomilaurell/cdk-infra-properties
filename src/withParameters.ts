@@ -34,7 +34,6 @@ async function getBranchName() {
 async function setBranchName() {
   if (!process.env[GIT_BRANCH]) {
     const branchName = await getBranchName();
-    console.log("Resolved branchName " + branchName);
     process.env[GIT_BRANCH] = branchName;
   }
 }
@@ -125,6 +124,7 @@ function printAllMeaningfullProperties(app: cdk.Construct, stackName: string, fo
   propertyNames.forEach(key => {
     meaningfullProperties[key] = process.env[key];
   });
+  meaningfullProperties[paramEnvId] = process.env[paramEnvId];
 
   const cdkProperties = cdkEnv(app);
 
