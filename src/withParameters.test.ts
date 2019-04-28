@@ -1,10 +1,24 @@
-import withParameters from "./withParameters";
-import envParameterUtil from "./envParameterUtil";
+import cdk = require("@aws-cdk/cdk");
+import withParameters, { StackParams } from "./withParameters";
 
 test("Branch specific properties-file should override", async () => {
   process.env.GIT_BRANCH = "test";
-  await withParameters(() => {
-    expect(envParameterUtil("TEST_PARAM_PARENT")).toEqual("MASTER");
-    expect(envParameterUtil("TEST_PARAM_CHILD")).toEqual("TEST");
-  });
+
+  const app = new cdk.App();
+
+  class TestStack {
+    constructor(appParam: cdk.Construct, stackName: string, props: any) {
+      expect(appParam).toEqual(app);
+      expect(stackName).toEqual("Test Stack");
+      expect(props.TEST_PARAM_PARENT).toEqual("MASTER");
+      expect(props.TEST_PARAM_CHILD).toEqual("TEST");
+    }
+  }
+
+  const params: StackParams = {
+    app: app,
+    stackName: "Test Stack",
+    stack: TestStack
+  };
+  await withParameters(params);
 });

@@ -1,3 +1,3 @@
 # infra-properties
 
-Support library for infrastructure development model with AWS-CDK.
+Support library for branch infrastructure development model with AWS-CDK.

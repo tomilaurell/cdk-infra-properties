@@ -1,7 +1,7 @@
 {
   "name": "infra-properties",
-  "version": "0.1.1",
-  "description": "Hierarchical env variable loader",
+  "version": "0.1.2",
+  "description": "Hierarchical env variable loader for AWS-CDK",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": "https://github.com/tomilaurell/infra-properties.git",
@@ -21,6 +21,7 @@
     "typescript": "3.4.5"
   },
   "dependencies": {
+    "aws-cdk": "0.29.0",
     "branch-name": "1.0.0",
     "dotenv": "7.0.0",
     "dotenv-expand": "5.1.0",
