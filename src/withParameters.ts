@@ -1,8 +1,12 @@
-const dotenv = require("dotenv");
-const dotenvExpand = require("dotenv-expand");
-const PropertiesReader = require("properties-reader");
+import dotenv = require("dotenv");
+import dotenvExpand = require("dotenv-expand");
+import PropertiesReader = require("properties-reader");
+import envParameterUtil from "./envParameterUtil";
 const branchName = require("branch-name");
 import _ = require("lodash");
+
+const paramEnvId = "paramEnvId";
+const GIT_BRANCH = "GIT_BRANCH";
 
 let envVariables: any;
 
@@ -13,10 +17,16 @@ async function getBranchName() {
 }
 
 async function setBranchName() {
-  if (!envVariables) {
+  if (!process.env[GIT_BRANCH]) {
     const branchName = await getBranchName();
     console.log("Resolved branchName " + branchName);
-    process.env.GIT_BRANCH = branchName;
+    process.env[GIT_BRANCH] = branchName;
+  }
+}
+
+async function setParamEnvId() {
+  if (!process.env[paramEnvId]) {
+    process.env[paramEnvId] = process.env[GIT_BRANCH];
   }
 }
 
@@ -35,8 +45,7 @@ function getBasePropertyFileName(path: string): string {
 }
 
 function getEnvParameterPropertyFileName(path: string): string {
-  const envParameter = "master";
-  return `${path}/infra-${envParameter}.properties`;
+  return `${path}/infra-${envParameterUtil(paramEnvId)}.properties`;
 }
 
 function loadVariablesOfFolder(path: string) {
@@ -103,20 +112,18 @@ export default async function withParameters(functionParam: Function, pathToStac
     throw "Function must be defined";
   }
 
-  await setBranchName();
+  if (!envVariables) {
+    await setBranchName();
+    await setParamEnvId();
+  }
+
   backupInitialEnvVariables();
   resetEnvVariables();
 
-  if (pathToStack) {
-    const folders = getAllFoldersForPath(pathToStack);
-    for (const folder of folders) {
-      loadVariablesOfFolder(folder);
-    }
-    printAllMeaningfullProperties(functionParam, folders);
-  } else {
-    const defaultFolder = ".";
-    loadVariablesOfFolder(defaultFolder);
-    printAllMeaningfullProperties(functionParam, [defaultFolder]);
+  const lookUpFolders = pathToStack ? getAllFoldersForPath(pathToStack) : ["."];
+  for (const folder of lookUpFolders) {
+    loadVariablesOfFolder(folder);
   }
+  printAllMeaningfullProperties(functionParam, lookUpFolders);
   await functionParam();
 }
