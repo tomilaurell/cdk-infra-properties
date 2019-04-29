@@ -1,10 +1,10 @@
 module.exports = {
-  roots: ['.'],
+  roots: ["."],
   transform: {
-    '^.+\\.tsx?$': 'ts-jest',
+    "^.+\\.tsx?$": "ts-jest"
   },
-  testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$',
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-  modulePathIgnorePatterns: ['/dist/'],
-  testPathIgnorePatterns: ['/dist/'],
+  testRegex: "(/__tests__/.*|(\\.|/)(test|spec|it))\\.(jsx?|tsx?)$",
+  moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
+  modulePathIgnorePatterns: ["/dist/"],
+  testPathIgnorePatterns: ["/dist/"]
 };

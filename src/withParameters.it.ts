@@ -1,5 +1,6 @@
 import cdk = require("@aws-cdk/cdk");
-import withParameters, { BaseStackProps } from "./withParameters";
+import withParameters from "./withParameters";
+import { BaseStackProps } from "./models";
 
 export interface TestStactProps extends BaseStackProps {
   ENV_PARAM: string;
