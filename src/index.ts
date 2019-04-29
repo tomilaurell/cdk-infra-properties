@@ -1,2 +1,2 @@
-export { default as withParameters } from "./withParameters";
+export { default as withInfraProperties } from "./withInfraProperties";
 export { BaseStackProps, StackParams } from "./models";

@@ -1,5 +1,5 @@
 import cdk = require("@aws-cdk/cdk");
-import withParameters from "./withParameters";
+import withInfraProperties from "./withInfraProperties";
 import { BaseStackProps } from "./models";
 
 export interface TestStactProps extends BaseStackProps {
@@ -54,14 +54,14 @@ test("Branch specific properties-file should override", async () => {
 
   process.env.ENV_PARAM = "NOT_WRITABLE";
 
-  await withParameters({
+  await withInfraProperties({
     app: app,
     stackName: "Test Stack 1",
     stack: TestStack1,
     path: "./child"
   });
 
-  await withParameters({
+  await withInfraProperties({
     app: app,
     stackName: "Test Stack 2",
     stack: TestStack2,
