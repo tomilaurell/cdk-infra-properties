@@ -25,6 +25,11 @@ export interface BaseStackProps extends cdk.StackProps {
   AWS_PROFILE: string;
 }
 
+interface CdkEnv {
+  region: string;
+  account: string;
+}
+
 async function getBranchName() {
   return branchName.get().then((name: string) => {
     return name;
@@ -107,35 +112,38 @@ function getAwsEnvVariables(): string[] {
   return Object.keys(envVariables).filter(key => key.startsWith("AWS"));
 }
 
-function cdkEnv(app: cdk.Construct): cdk.Environment {
+function getCdkEnv(app: cdk.Construct): CdkEnv {
   return {
     account: app.node.getContext("aws:cdk:toolkit:default-account"),
     region: app.node.getContext("aws:cdk:toolkit:default-region")
   };
 }
 
-function printAllMeaningfullProperties(app: cdk.Construct, stackName: string, folderPaths: string[]): any {
+function loadCdkEnv(app: cdk.Construct): void {
+  const cdkEnv: CdkEnv = getCdkEnv(app);
+  if (!process.env.region) {
+    process.env.region = cdkEnv.region;
+  }
+  if (!process.env.account) {
+    process.env.account = cdkEnv.account;
+  }
+}
+
+function printAllMeaningfullProperties(app: cdk.Construct, stackName: string, folderPaths: string[]) {
   const propertyNamesFromFiles = getAllMeaningfullProperties(folderPaths);
   const awsPropertyNames = getAwsEnvVariables();
   const propertyNames = propertyNamesFromFiles.concat(awsPropertyNames);
   propertyNames.sort();
 
-  const meaningfullProperties: any = {};
+  const meaningfullProperties: any = getCdkEnv(app);
+
+  // property files overwrite cdkEnv-properties
   propertyNames.forEach(key => {
     meaningfullProperties[key] = process.env[key];
   });
   meaningfullProperties[paramEnvId] = process.env[paramEnvId];
 
-  const cdkProperties = cdkEnv(app);
-
-  const allMeaningfullProperties = {
-    ...meaningfullProperties,
-    ...cdkProperties
-  };
-
-  console.log(`Creating stack "${stackName}" with properties`, allMeaningfullProperties);
-
-  return allMeaningfullProperties;
+  console.log(`Creating stack "${stackName}" with the following most meaningfull properties`, meaningfullProperties);
 }
 
 export default async function withParameters(params: StackParams) {
@@ -151,7 +159,9 @@ export default async function withParameters(params: StackParams) {
   for (const folder of lookUpFolders) {
     loadVariablesOfFolder(folder);
   }
-  const properties = printAllMeaningfullProperties(params.app, params.stackName, lookUpFolders);
+  loadCdkEnv(params.app);
 
-  await new params.stack(params.app, params.stackName, properties);
+  printAllMeaningfullProperties(params.app, params.stackName, lookUpFolders);
+
+  await new params.stack(params.app, params.stackName, process.env);
 }
