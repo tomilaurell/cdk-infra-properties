@@ -23,11 +23,17 @@ test("Branch specific properties-file should override", async () => {
       expect(appParam).toEqual(app);
       expect(stackName).toEqual("Test Stack 1");
       expect(props.paramEnvId).toEqual("test");
+      expect(props.autoDeploy).toBeTruthy();
 
       expect(props.GIT_BRANCH).toEqual("test");
       expect(props.ENV_PARAM).toEqual("NOT_WRITABLE");
-      expect(props.account).toEqual("TEST_ACCOUNT");
-      expect(props.region).toEqual("DEFAULT_REGION");
+
+      if (props.env) {
+        expect(props.env.account).toEqual("TEST_ACCOUNT");
+        expect(props.env.region).toEqual("DEFAULT_REGION");
+      } else {
+        throw "props.env should not be null";
+      }
 
       expect(props.TEST_PARAM_PARENT).toEqual("PARENT");
       expect(props.TEST_PARAM_BRANCH_OVERRIDE).toEqual("PARENT_TEST");
@@ -41,11 +47,17 @@ test("Branch specific properties-file should override", async () => {
       expect(appParam).toEqual(app);
       expect(stackName).toEqual("Test Stack 2");
       expect(props.paramEnvId).toEqual("test");
+      expect(props.autoDeploy).toBeUndefined();
 
       expect(props.GIT_BRANCH).toEqual("test");
       expect(props.ENV_PARAM).toEqual("NOT_WRITABLE");
-      expect(props.account).toEqual("OTHER_ACCOUNT");
-      expect(props.region).toEqual("OTHER_REGION");
+
+      if (props.env) {
+        expect(props.env.account).toEqual("OTHER_ACCOUNT");
+        expect(props.env.region).toEqual("OTHER_REGION");
+      } else {
+        throw "props.env should not be null";
+      }
 
       expect(props.TEST_PARAM_PARENT).toEqual("PARENT");
       expect(props.TEST_PARAM_BRANCH_OVERRIDE).toEqual("PARENT_TEST");
@@ -58,7 +70,10 @@ test("Branch specific properties-file should override", async () => {
     app: app,
     stackName: "Test Stack 1",
     stack: TestStack1,
-    path: "./child"
+    path: "./child",
+    stackProps: {
+      autoDeploy: true
+    }
   });
 
   await withInfraProperties({

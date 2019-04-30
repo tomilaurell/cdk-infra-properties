@@ -5,11 +5,10 @@ export interface StackParams {
   stack: any;
   stackName: string;
   path?: string;
+  stackProps?: cdk.StackProps;
 }
 
 export interface BaseStackProps extends cdk.StackProps {
-  account: string;
   paramEnvId: string;
-  region: string;
   AWS_PROFILE: string;
 }

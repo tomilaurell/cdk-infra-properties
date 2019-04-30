@@ -6,7 +6,10 @@ import { StackParams } from "./models";
 import { initializeIfNeeded, resetEnvVariables } from "./envParamUtil";
 import { getBasePropertyFileName, getEnvParameterPropertyFileName } from "./fileNameResolver";
 import { getAllFoldersForPath } from "./folderResolver";
-import { printAllImportantProperties } from "./meaningfullPropertiesPrinter";
+import { printAllImportantProperties } from "./importantPropertiesPrinter";
+
+const REGION = "REGION";
+const ACCOUNT_ID = "ACCOUNT_ID";
 
 function loadVariablesOfFolder(path: string): void {
   const baseFile = getBasePropertyFileName(path);
@@ -19,11 +22,11 @@ function loadVariablesOfFolder(path: string): void {
 
 function loadCdkEnv(app: cdk.Construct): void {
   const cdkEnv: CdkEnv = getCdkEnv(app);
-  if (!process.env.region) {
-    process.env.region = cdkEnv.region;
+  if (!process.env[REGION]) {
+    process.env[REGION] = cdkEnv.region;
   }
-  if (!process.env.account) {
-    process.env.account = cdkEnv.account;
+  if (!process.env[ACCOUNT_ID]) {
+    process.env[ACCOUNT_ID] = cdkEnv.account;
   }
 }
 
@@ -42,7 +45,16 @@ export default async function withParameters(params: StackParams): Promise<void>
   loadCdkEnv(params.app);
 
   // Print most important properties. Basically those found in property-files and couple of others.
-  printAllImportantProperties(params.app, params.stackName, lookUpFolders);
+  printAllImportantProperties(params.stackName, lookUpFolders);
 
-  await new params.stack(params.app, params.stackName, process.env);
+  const stackParams: cdk.StackProps = {
+    ...process.env,
+    env: {
+      account: process.env[ACCOUNT_ID],
+      region: process.env[REGION]
+    },
+    ...params.stackProps
+  };
+
+  await new params.stack(params.app, params.stackName, stackParams);
 }

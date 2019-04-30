@@ -1,8 +1,6 @@
-import cdk = require("@aws-cdk/cdk");
 import PropertiesReader = require("properties-reader");
 import { getBasePropertyFileName, getEnvParameterPropertyFileName } from "./fileNameResolver";
 import { paramEnvId, getAwsEnvVariables } from "./envParamUtil";
-import { getCdkEnv } from "./cdkEnvUtil";
 
 function getPropertiesOfFile(filePath: string): string[] {
   try {
@@ -25,24 +23,26 @@ function getFilePropertyNames(folderPaths: string[]): string[] {
   return Array.from(new Set(propertyNames));
 }
 
-function getAllImportantProperties(app: cdk.Construct, folderPaths: string[]): any {
+function getAllImportantProperties(folderPaths: string[]): any {
   const propertyNamesFromFiles = getFilePropertyNames(folderPaths);
   const awsPropertyNames = getAwsEnvVariables();
   const propertyNames = propertyNamesFromFiles.concat(awsPropertyNames);
   propertyNames.sort();
 
-  const meaningfullProperties: any = getCdkEnv(app);
-
-  // property files overwrite cdkEnv-properties
+  const importantProperties: any = {};
+  importantProperties.env = {
+    account: process.env.ACCOUNT_ID,
+    region: process.env.REGION
+  };
+  importantProperties[paramEnvId] = process.env[paramEnvId];
   propertyNames.forEach(key => {
-    meaningfullProperties[key] = process.env[key];
+    importantProperties[key] = process.env[key];
   });
-  meaningfullProperties[paramEnvId] = process.env[paramEnvId];
 
-  return meaningfullProperties;
+  return importantProperties;
 }
 
-export function printAllImportantProperties(app: cdk.Construct, stackName: string, folderPaths: string[]): void {
-  const meaningfullProperties: any = getAllImportantProperties(app, folderPaths);
-  console.debug(`Creating stack "${stackName}" with the following most important properties`, meaningfullProperties);
+export function printAllImportantProperties(stackName: string, folderPaths: string[]): void {
+  const importantProperties: any = getAllImportantProperties(folderPaths);
+  console.debug(`Creating stack "${stackName}" with the following most important properties`, importantProperties);
 }
