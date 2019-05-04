@@ -1,24 +1,13 @@
 import cdk = require("@aws-cdk/cdk");
-import dotenv = require("dotenv");
-import dotenvExpand = require("dotenv-expand");
 import { getCdkEnv, CdkEnv } from "./cdkEnvUtil";
 import { StackParams } from "./models";
 import { initializeIfNeeded, resetEnvVariables } from "./envParamUtil";
-import { getBasePropertyFileName, getEnvParameterPropertyFileName } from "./fileNameResolver";
 import { getAllFoldersForPath } from "./folderResolver";
 import { printAllImportantProperties } from "./importantPropertiesPrinter";
+import { loadVariablesOfFolder } from "./variableLoader";
 
 const REGION = "REGION";
 const ACCOUNT_ID = "ACCOUNT_ID";
-
-function loadVariablesOfFolder(path: string): void {
-  const baseFile = getBasePropertyFileName(path);
-  const envParameterFile = getEnvParameterPropertyFileName(path);
-  const baseProps = dotenv.config({ path: envParameterFile });
-  dotenvExpand(baseProps);
-  const envParameterProps = dotenv.config({ path: baseFile });
-  dotenvExpand(envParameterProps);
-}
 
 function loadCdkEnv(app: cdk.Construct): void {
   const cdkEnv: CdkEnv = getCdkEnv(app);

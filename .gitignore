@@ -37,3 +37,6 @@ tsconfig.tsbuildinfo
 
 # NPM
 .npmrc
+
+# Generated variables-file for serverless-stacks
+infraVariables.yml

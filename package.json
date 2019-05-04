@@ -1,6 +1,6 @@
 {
   "name": "cdk-infra-properties",
-  "version": "0.1.9",
+  "version": "0.2.0",
   "description": "Hierarchical env variable loader for AWS-CDK",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -13,6 +13,7 @@
   "devDependencies": {
     "@types/dotenv": "^6.1.1",
     "@types/jest": "24.0.12",
+    "@types/js-yaml": "^3.12.1",
     "@types/lodash": "4.14.123",
     "@types/node": "11.13.8",
     "@types/properties-reader": "0.0.1",
@@ -25,6 +26,7 @@
     "branch-name": "1.0.0",
     "dotenv": "7.0.0",
     "dotenv-expand": "5.1.0",
+    "js-yaml": "3.13.1",
     "lodash": "4.17.11",
     "properties-reader": "0.0.16",
     "source-map-support": "0.5.12"
