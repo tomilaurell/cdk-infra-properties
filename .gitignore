@@ -40,3 +40,6 @@ tsconfig.tsbuildinfo
 
 # Generated variables-file for serverless-stacks
 infraVariables.yml
+
+# Generated .env-file for serverless-stacks
+.env

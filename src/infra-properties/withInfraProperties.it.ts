@@ -1,6 +1,6 @@
 import cdk = require("@aws-cdk/cdk");
 import withInfraProperties from "./withInfraProperties";
-import { BaseStackProps } from "./models";
+import { BaseStackProps } from "../models";
 
 export interface TestStactProps extends BaseStackProps {
   ENV_PARAM: string;

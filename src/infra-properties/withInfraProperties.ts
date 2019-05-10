@@ -1,10 +1,10 @@
 import cdk = require("@aws-cdk/cdk");
-import { getCdkEnv, CdkEnv } from "./cdkEnvUtil";
-import { StackParams } from "./models";
-import { initializeIfNeeded, resetEnvVariables } from "./envParamUtil";
-import { getAllFoldersForPath } from "./folderResolver";
-import { printAllImportantProperties } from "./importantPropertiesPrinter";
-import { loadVariablesOfFolder } from "./variableLoader";
+import { getCdkEnv, CdkEnv } from "../cdkEnvUtil";
+import { StackParams } from "../models";
+import { initializeIfNeeded, resetEnvVariables } from "../envParamUtil";
+import { getAllFoldersForPath } from "../folderResolver";
+import { printAllImportantProperties } from "../importantPropertiesPrinter";
+import { loadVariablesOfFolder } from "../variableLoader";
 
 const REGION = "REGION";
 const ACCOUNT_ID = "ACCOUNT_ID";

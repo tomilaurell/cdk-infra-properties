@@ -1,7 +1,7 @@
-import { initializeIfNeeded, resetEnvVariables } from "./envParamUtil";
-import { getAllFoldersForPath } from "./folderResolver";
-import { loadVariablesOfFolder } from "./variableLoader";
-import { writeVariablesFile } from "./serverlessVariableWriter";
+import { initializeIfNeeded, resetEnvVariables } from "../envParamUtil";
+import { getAllFoldersForPath } from "../folderResolver";
+import { loadVariablesOfFolder } from "../variableLoader";
+import { writeDotEnvFile } from "./dotEnvWriter";
 
 export default async function generateServerlessVariables(path: string, parameterOverwrites?: any): Promise<void> {
   await initializeIfNeeded();
@@ -20,5 +20,5 @@ export default async function generateServerlessVariables(path: string, paramete
     ...parameterOverwrites
   };
 
-  await writeVariablesFile(path, variables);
+  await writeDotEnvFile(path, variables);
 }
