@@ -3,7 +3,7 @@
  * @param name name
  */
 export function sanitize(name: string) {
-  return name.replace(new RegExp("[^A-Za-z0-9-]+", "g"), "_");
+  return name.replace(new RegExp("[^A-Za-z0-9-]+", "g"), "-");
 }
 
 export async function getBranchName(): Promise<string> {
