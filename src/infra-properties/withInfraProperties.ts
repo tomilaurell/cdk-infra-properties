@@ -1,23 +1,10 @@
 import cdk = require("@aws-cdk/cdk");
-import { getCdkEnv, CdkEnv } from "../cdkEnvUtil";
+import { loadCdkEnv, ACCOUNT_ID, REGION } from "../cdkEnvUtil";
 import { StackParams } from "../models";
 import { initializeIfNeeded, resetEnvVariables } from "../envParamUtil";
 import { getAllFoldersForPath } from "../folderResolver";
 import { printAllImportantProperties } from "../importantPropertiesPrinter";
 import { loadVariablesOfFolder } from "../variableLoader";
-
-const REGION = "REGION";
-const ACCOUNT_ID = "ACCOUNT_ID";
-
-function loadCdkEnv(app: cdk.Construct): void {
-  const cdkEnv: CdkEnv = getCdkEnv(app);
-  if (!process.env[REGION]) {
-    process.env[REGION] = cdkEnv.region;
-  }
-  if (!process.env[ACCOUNT_ID]) {
-    process.env[ACCOUNT_ID] = cdkEnv.account;
-  }
-}
 
 export default async function withParameters(params: StackParams): Promise<void> {
   await initializeIfNeeded();
