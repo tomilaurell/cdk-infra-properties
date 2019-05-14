@@ -7,6 +7,5 @@ export function getAllFoldersForPath(pathToStack: string): string[] {
     folderIterator = folderIterator ? `${folderIterator}/${folderPart}` : folderPart;
     return folderIterator;
   });
-  _.reverse(folders);
   return folders;
 }
