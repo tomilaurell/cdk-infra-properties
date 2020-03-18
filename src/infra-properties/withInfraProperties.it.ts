@@ -10,6 +10,7 @@ export interface TestStactProps extends BaseStackProps {
   TEST_PARAM_BRANCH_OVERRIDE: string;
   TEST_PARAM_CHILD: string;
   TEST_PARAM_CHILD_BRANCH_OVERRIDE: string;
+  TEST_PARAM_CHILD_LOCAL_OVERRIDE: string
 }
 
 test("Branch specific properties-file should override", async () => {
@@ -42,6 +43,7 @@ test("Branch specific properties-file should override", async () => {
       expect(props.TEST_PARAM_BRANCH_OVERRIDE).toEqual("PARENT_TEST");
       expect(props.TEST_PARAM_CHILD).toEqual("CHILD");
       expect(props.TEST_PARAM_CHILD_BRANCH_OVERRIDE).toEqual("CHILD_TEST");
+      expect(props.TEST_PARAM_CHILD_LOCAL_OVERRIDE).toEqual("LOCAL_CHILD_TEST");
     }
   }
 

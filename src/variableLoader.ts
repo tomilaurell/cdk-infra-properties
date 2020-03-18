@@ -1,6 +1,10 @@
 import PropertiesReader = require("properties-reader");
-import { getBasePropertyFileName, getEnvParameterPropertyFileName } from "./fileNameResolver";
-import { expandString } from "./stringExpansionUtil";
+import {
+  getBasePropertyFileName,
+  getEnvParameterPropertyFileName,
+  getLocalParameterPropertyFileName
+} from "./fileNameResolver";
+import {expandString} from "./stringExpansionUtil";
 
 interface Params {
   [name: string]: string;
@@ -44,7 +48,9 @@ function loadVariables(path: string): void {
 export function loadVariablesOfFolder(path: string): void {
   const baseFile = getBasePropertyFileName(path);
   const envParameterFile = getEnvParameterPropertyFileName(path);
+  const localParameterFile = getLocalParameterPropertyFileName(path);
 
   loadVariables(baseFile);
   loadVariables(envParameterFile);
+  loadVariables(localParameterFile);
 }
