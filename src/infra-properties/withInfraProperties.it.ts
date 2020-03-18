@@ -1,6 +1,6 @@
-import cdk = require("@aws-cdk/cdk");
+import core = require('@aws-cdk/core');
 import withInfraProperties from "./withInfraProperties";
-import { BaseStackProps } from "../models";
+import {BaseStackProps} from "../models";
 
 export interface TestStactProps extends BaseStackProps {
   ENV_PARAM: string;
@@ -15,16 +15,17 @@ export interface TestStactProps extends BaseStackProps {
 test("Branch specific properties-file should override", async () => {
   process.env.GIT_BRANCH = "test";
 
-  const app = new cdk.App();
-  app.node.setContext("aws:cdk:toolkit:default-account", "TEST_ACCOUNT");
-  app.node.setContext("aws:cdk:toolkit:default-region", "DEFAULT_REGION");
+  const app = new core.App({ context: {
+      "aws:cdk:toolkit:default-account": "TEST_ACCOUNT",
+      "aws:cdk:toolkit:default-region": "DEFAULT_REGION"
+    }})
 
   class TestStack1 {
-    constructor(appParam: cdk.Construct, stackName: string, props: TestStactProps) {
+    constructor(appParam: core.Construct, stackName: string, props: TestStactProps) {
       expect(appParam).toEqual(app);
       expect(stackName).toEqual("Test Stack 1");
       expect(props.paramEnvId).toEqual("test");
-      expect(props.autoDeploy).toBeTruthy();
+      expect(props.description).toEqual("Description");
 
       expect(props.GIT_BRANCH).toEqual("test");
       expect(props.ENV_PARAM).toEqual("NOT_WRITABLE");
@@ -45,11 +46,11 @@ test("Branch specific properties-file should override", async () => {
   }
 
   class TestStack2 {
-    constructor(appParam: cdk.Construct, stackName: string, props: TestStactProps) {
+    constructor(appParam: core.Construct, stackName: string, props: TestStactProps) {
       expect(appParam).toEqual(app);
       expect(stackName).toEqual("Test Stack 2");
       expect(props.paramEnvId).toEqual("test");
-      expect(props.autoDeploy).toBeUndefined();
+      expect(props.description).toBeUndefined();
 
       expect(props.GIT_BRANCH).toEqual("test");
       expect(props.ENV_PARAM).toEqual("NOT_WRITABLE");
@@ -74,7 +75,7 @@ test("Branch specific properties-file should override", async () => {
     stack: TestStack1,
     path: "./child",
     stackProps: {
-      autoDeploy: true
+      description: "Description"
     }
   });
 

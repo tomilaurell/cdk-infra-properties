@@ -1,6 +1,6 @@
 import fs = require("fs");
 
-export function writeDotEnvFile(path: string, properties: any): Promise<void> {
+export async function writeDotEnvFile(path: string, properties: any): Promise<void> {
   const fileName = `${path}/.env`;
   console.log(`Generating file: '${fileName}'`);
 

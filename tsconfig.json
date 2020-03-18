@@ -17,7 +17,8 @@
     "inlineSourceMap": true,
     "inlineSources": true,
     "experimentalDecorators": true,
-    "strictPropertyInitialization": false
+    "strictPropertyInitialization": false,
+    "skipLibCheck": true
   },
   "exclude": ["node_modules", "dist"]
 }

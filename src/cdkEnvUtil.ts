@@ -1,4 +1,4 @@
-import cdk = require("@aws-cdk/cdk");
+import core = require('@aws-cdk/core');
 
 export const REGION = "REGION";
 export const ACCOUNT_ID = "ACCOUNT_ID";
@@ -8,10 +8,10 @@ export interface CdkEnv {
   region: string;
 }
 
-export function loadCdkEnv(app: cdk.Construct): CdkEnv {
+export function loadCdkEnv(app: core.Construct): CdkEnv {
   const cdkEnv: CdkEnv = {
-    account: app.node.getContext("aws:cdk:toolkit:default-account"),
-    region: app.node.getContext("aws:cdk:toolkit:default-region")
+    account: app.node.tryGetContext("aws:cdk:toolkit:default-account"),
+    region: app.node.tryGetContext("aws:cdk:toolkit:default-region")
   };
   if (!process.env[REGION]) {
     process.env[REGION] = cdkEnv.region;

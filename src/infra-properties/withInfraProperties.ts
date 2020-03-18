@@ -1,4 +1,4 @@
-import cdk = require("@aws-cdk/cdk");
+import core = require('@aws-cdk/core');
 import { ACCOUNT_ID, REGION } from "../cdkEnvUtil";
 import { StackParams } from "../models";
 import { getAllFoldersForPath } from "../folderResolver";
@@ -12,7 +12,7 @@ export default async function withParameters(params: StackParams): Promise<void>
   const lookUpFolders = params.path ? getAllFoldersForPath(params.path) : ["."];
   printAllImportantProperties(params.stackName, lookUpFolders);
 
-  const stackParams: cdk.StackProps = {
+  const stackParams: core.StackProps = {
     ...process.env,
     env: {
       account: process.env[ACCOUNT_ID],

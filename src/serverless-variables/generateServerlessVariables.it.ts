@@ -1,4 +1,4 @@
-import cdk = require("@aws-cdk/cdk");
+import core = require('@aws-cdk/core');
 import fs = require("fs");
 import generateServerlessVariables from "./generateServerlessVariables";
 
@@ -11,9 +11,10 @@ function removeFileIfExist(path: string) {
 
 test("Branch specific serverless variables should be written", async () => {
   // Given
-  const app = new cdk.App();
-  app.node.setContext("aws:cdk:toolkit:default-account", "TEST_ACCOUNT");
-  app.node.setContext("aws:cdk:toolkit:default-region", "DEFAULT_REGION");
+  const app = new core.App({ context: {
+      "aws:cdk:toolkit:default-account": "TEST_ACCOUNT",
+      "aws:cdk:toolkit:default-region": "DEFAULT_REGION"
+  }})
   const pathToServerlessFolder = "./serverless-child";
 
   const variablesFilePath = `${pathToServerlessFolder}/infraVariables.yml`;

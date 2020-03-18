@@ -1,4 +1,4 @@
-import cdk = require("@aws-cdk/cdk");
+import core = require('@aws-cdk/core');
 import _ = require("lodash");
 import { initializeIfNeeded, resetEnvVariables } from "./envParamUtil";
 import { loadCdkEnv } from "./cdkEnvUtil";
@@ -9,7 +9,7 @@ function overwriteEnvVariables(props: any) {
   Object.keys(props).forEach(key => (process.env[key] = props[key]));
 }
 
-export async function loadParametersToEnv(app: cdk.Construct, path?: string, parameterOverwrites?: any): Promise<void> {
+export async function loadParametersToEnv(app: core.Construct, path?: string, parameterOverwrites?: any): Promise<void> {
   await initializeIfNeeded();
 
   // Reset env variables to initial ones

@@ -1,14 +1,14 @@
-import cdk = require("@aws-cdk/cdk");
+import core = require('@aws-cdk/core');
 
 export interface StackParams {
-  app: cdk.Construct;
+  app: core.Construct;
   stack: any;
   stackName: string;
   path?: string;
-  stackProps?: cdk.StackProps;
+  stackProps?: core.StackProps;
 }
 
-export interface BaseStackProps extends cdk.StackProps {
+export interface BaseStackProps extends core.StackProps {
   paramEnvId: string;
   AWS_PROFILE: string;
 }
