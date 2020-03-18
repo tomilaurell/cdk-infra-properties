@@ -6,7 +6,7 @@ import {
 } from "./fileNameResolver";
 import {expandString} from "./stringExpansionUtil";
 
-interface Params {
+export interface Params {
   [name: string]: string;
 }
 
@@ -24,11 +24,11 @@ function parseVariables(path: string): Params {
   }
 }
 
-function expandVariables(params: Params): Params {
+export function expandVariables(params: Params): Params {
   const result: Params = {};
   Object.keys(params).forEach(key => {
     const value = params[key];
-    const expandedValue = expandString(value);
+    const expandedValue = expandString(value, result);
     result[key] = expandedValue;
   });
   return result;

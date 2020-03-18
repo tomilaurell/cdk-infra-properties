@@ -6,7 +6,7 @@ test("Expand string with env variable", () => {
   const input = "something: ${RESULT}";
 
   // When
-  const result = expandString(input);
+  const result = expandString(input, {});
 
   // Then
   expect(result).toBe("something: SUCCESS");

@@ -1,14 +1,17 @@
-import {expandString} from "./stringExpansionUtil";
+import {expandVariables, Params} from "./variableLoader";
 
-test("Expand string with env variable", () => {
+test("Expand variables with previous param in same set", () => {
   // Given
-  process.env.RESULT = "SUCCESS";
-  const input = "something: ${RESULT}";
+  const params: Params = {
+    FIRST: 'FIRST_VALUE',
+    SECOND: 'REFER TO ${FIRST}'
+  }
 
   // When
-  const result = expandString(input, {});
+  const result = expandVariables(params);
 
   // Then
-  expect(result).toBe("something: SUCCESS");
+  expect(result.FIRST).toBe('FIRST_VALUE')
+  expect(result.SECOND).toBe('REFER TO FIRST_VALUE')
 });
 
