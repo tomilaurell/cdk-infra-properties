@@ -11,4 +11,6 @@ export interface StackParams {
 export interface BaseStackProps extends core.StackProps {
   paramEnvId: string;
   AWS_PROFILE: string;
+  ACCOUNT_ID: string
+  REGION: string
 }
