@@ -1,11 +1,11 @@
 import core = require('@aws-cdk/core');
-import { ACCOUNT_ID, REGION } from "../cdkEnvUtil";
-import { StackParams } from "../models";
-import { getAllFoldersForPath } from "../folderResolver";
-import { printAllImportantProperties } from "../importantPropertiesPrinter";
-import { loadParametersToEnv } from "../loadParametersToEnv";
+import {ACCOUNT_ID, REGION} from "../cdkEnvUtil";
+import {StackParams} from "../models";
+import {getAllFoldersForPath} from "../folderResolver";
+import {printAllImportantProperties} from "../importantPropertiesPrinter";
+import {loadParametersToEnv} from "../loadParametersToEnv";
 
-export default async function withParameters(params: StackParams): Promise<void> {
+export default async function withParameters(params: StackParams): Promise<core.Construct> {
   await loadParametersToEnv(params.app, params.path, params.stackProps);
 
   // Print most important properties. Basically those found in property-files and couple of others.
@@ -21,5 +21,5 @@ export default async function withParameters(params: StackParams): Promise<void>
     ...params.stackProps
   };
 
-  await new params.stack(params.app, params.stackName, stackParams);
+  return await new params.stack(params.app, params.stackName, stackParams);
 }
