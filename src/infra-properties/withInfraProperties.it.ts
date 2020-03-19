@@ -6,6 +6,7 @@ export interface TestStactProps extends BaseStackProps {
   ENV_PARAM: string;
   GIT_BRANCH: string;
   TEST_EXPANDING: string;
+  TEST_EXPANDING_IN_SAME_FILE: string;
   TEST_PARAM_PARENT: string;
   TEST_PARAM_BRANCH_OVERRIDE: string;
   TEST_PARAM_CHILD: string;
@@ -39,6 +40,7 @@ test("Branch specific properties-file should override", async () => {
       }
 
       expect(props.TEST_EXPANDING).toEqual("PREFIX_DEFAULT_REGION");
+      expect(props.TEST_EXPANDING_IN_SAME_FILE).toEqual("PREFIX_PREFIX_DEFAULT_REGION");
       expect(props.TEST_PARAM_PARENT).toEqual("PARENT");
       expect(props.TEST_PARAM_BRANCH_OVERRIDE).toEqual("PARENT_TEST");
       expect(props.TEST_PARAM_CHILD).toEqual("CHILD");
