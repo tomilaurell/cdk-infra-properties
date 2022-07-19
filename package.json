@@ -27,7 +27,7 @@
     "es6-dynamic-template": "1.0.5",
     "js-yaml": "3.13.1",
     "lodash": "4.17.15",
-    "properties-reader": "1.0.0",
+    "properties-reader": "2.2.0",
     "source-map-support": "0.5.16"
   }
 }
